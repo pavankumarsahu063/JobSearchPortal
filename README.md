@@ -31,10 +31,3 @@ A full-stack web application designed to help users find and apply for jobs. The
 - View applied jobs and saved listings  
 - Edit profile and manage preferences  
 
----
-
-## 📦 Installation and Setup
-
-1. **Clone the repository**
-```bash
-git clone <repository-URL>
