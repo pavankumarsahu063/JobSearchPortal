@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>SideNavBar</title>
+</head>
+<body>
+	<div class="sidebar" th:fragment="sideNavBar">
+		<div class="profile">
+			<img
+				src="https://tse1.mm.bing.net/th?id=OIP.hGSCbXlcOjL_9mmzerqAbQHaHa&pid=Api"
+				alt="Profile Picture">
+		</div>
+		<h2>
+			<span th:text="${users.name}"></span>
+		</h2>
+		<ul class="menu">
+			<li onclick="showSection('contact')"><i
+				class="fas fa-address-book"></i> Contact</li>
+			<li onclick="showSection('education')"><i
+				class="fas fa-graduation-cap"></i> Education</li>
+			<li onclick="showSection('skills')"><i class="fas fa-code"></i>
+				Skills</li>
+			<li onclick="showSection('preference')"><i class="fas fa-user"></i>
+				Preferences</li>
+			<li onclick="showSection('languages')"><i
+				class="fas fa-language"></i> Languages</li>
+			<li onclick="showSection('projects')"><i
+				class="fas fa-project-diagram"></i> Projects</li>
+			<li onclick="showSection('experience')"><i
+				class="fas fa-briefcase"></i> Experience</li>
+			<li onclick="showSection('certifications')"><i
+				class="fas fa-certificate"></i> Certifications</li>
+			<li onclick="showSection('achievements')"><i
+				class="fas fa-trophy"></i> Achievements</li>
+			<li onclick="showSection('resume')"><i class="fas fa-file-alt"></i>
+				Resume</li>
+		</ul>
+	</div>
+</body>
+</html>
+

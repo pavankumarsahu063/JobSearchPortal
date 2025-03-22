@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Preferences Form</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css}" />
+</head>
+<body class="container mt-5" >
+	<div class="jobpreferance" th:fragment="jobPreferencesForm">
+	<div class="card shadow-lg p-4 mb-5" >
+		
+			<div class="d-flex justify-content-between align-items-center mb-4">
+				<h3 class="fw-bold text-primary">🎓 JobPreference Details</h3>
+				<form th:action="@{/jobpreferenceDetails}" method="post">
+					<input type="hidden" name="userId" th:value="${users.id}">
+					<button class="btn btn-success" onclick="scrollToEducationForm()">
+						<i class="fas fa-plus"></i> View JobPreference Details
+					</button>
+				</form>
+			</div>
+
+			<div class="table-responsive">
+				<table
+					class="table table-striped table-bordered table-hover text-center">
+					<thead class="table-dark">
+						<tr>
+							<th>Job Type</th>
+							<th>Preferred Location</th>
+							<th>Industry</th>
+							<th>Expected Salary</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="preference : ${jobPreferencesList}">
+							<td th:text="${preference.jobType}"></td>
+							<td th:text="${preference.preferredLocation}"></td>
+							<td th:text="${preference.industry}"></td>
+							<td th:text="${preference.expectedSalary}"></td>
+							<td>
+								 <a th:href="@{/editJobPreferences}"
+								class="btn btn-warning btn-sm"> <i class="fas fa-edit"></i>
+									Edit
+							</a> <!-- Delete Form -->
+								<form th:action="@{/deleteJobPreferences}" method="post"
+									class="d-inline"
+									onsubmit="return confirm('Are you sure you want to delete this preference?');">
+									<input type="hidden" name="id" th:value="${preference.id}">
+									<input type="hidden" name="userId" th:value="${users.id}">
+									<button type="submit" class="btn btn-danger btn-sm">
+										<i class="fas fa-trash"></i> Delete
+									</button>
+								</form>
+							</td>
+						</tr>
+						<tr th:if="${#lists.isEmpty(jobPreferencesList)}">
+							<td colspan="5" class="text-muted">No job preferences added
+								yet.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="card shadow-lg p-4 mb-5">
+		<h3 class="fw-bold text-primary">🎓 Add JobPreference Details</h3>
+			<!-- Form -->
+			<form
+				th:action="@{/saveJobPreferences}"
+				th:object="${jobPreferences}" method="post">
+
+				<input type="hidden" th:field="*{id}" /> <input type="hidden"
+					name="userId" th:value="${userId}" />
+
+				<div class="mb-3">
+					<label class="form-label">Job Type:</label> <select
+						class="form-select" th:field="*{jobType}" required>
+						<option value="">Select Job Type</option>
+						<option value="Full-time">Full-time</option>
+						<option value="Part-time">Part-time</option>
+						<option value="Internship">Internship</option>
+						<option value="Freelance">Freelance</option>
+					</select>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label">Preferred Location:</label> <input
+						type="text" class="form-control" th:field="*{preferredLocation}"
+						placeholder="Enter preferred location" required />
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label">Industry:</label> <input type="text"
+						class="form-control" th:field="*{industry}"
+						placeholder="Enter industry" required />
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label">Expected Salary:</label> <input
+						type="number" class="form-control" th:field="*{expectedSalary}"
+						placeholder="Enter expected salary" required />
+				</div>
+
+				<div class="text-center">
+					<button type="submit" class="btn btn-primary">
+						Save Preferences
+					</button>
+				</div>
+			</form>
+		</div>
+
+	</div>
+	<script
+		th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

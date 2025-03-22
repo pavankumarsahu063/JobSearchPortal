@@ -1,0 +1,94 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="deleteAlertBox">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delete Confirmation</title>
+
+
+</head>
+
+<style>
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
+/* Styles for custom alert box */
+.alert-box {
+	background: white;
+	padding: 20px;
+	border-radius: 8px;
+	text-align: center;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	width: 300px;
+}
+
+.alert-box h2 {
+	margin: 0 0 10px;
+}
+
+.alert-box button {
+	padding: 8px 16px;
+	margin: 10px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.btn-delete {
+	background: red;
+	color: white;
+}
+
+.btn-cancel {
+	background: gray;
+	color: white;
+}
+</style>
+
+<body>
+
+
+	<div >
+		<div class="overlay" id="deleteOverlay">
+			<div class="alert-box">
+				<h2>Are you sure?</h2>
+				<p>Do you really want to proceed?</p>
+		<!--		<form th:action="@{/delete}" method="post">
+					<input type="hidden" id="itemId" name="id" th:value="${itemId}" />
+					<button type="button" class="btn-delete"
+						onclick="proceedWithAction()">Yes, Proceed</button>
+				</form>
+				
+			-->	
+				<button class="btn-cancel" onclick="closeDeleteAlert()">Cancel</button>
+			</div>
+		</div>
+
+		<script>
+        function showDeleteAlert() {
+            document.getElementById('deleteOverlay').style.display = 'flex';
+        }
+
+        function closeDeleteAlert() {
+            document.getElementById('deleteOverlay').style.display = 'none';
+        }
+
+        function proceedWithAction() {
+            closeDeleteAlert(); // Close the alert box
+            scrollToEducationForm(); // Call the existing function
+        }
+    </script>
+	</div>
+
+
+</body>
+</html>

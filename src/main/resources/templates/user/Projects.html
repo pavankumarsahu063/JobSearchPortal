@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Projects</title>
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css}" />
+</head>
+<body class="container mt-5">
+
+<!-- Card for Upload Form -->
+<div class="card shadow-lg p-4 mb-5">
+    <h2 class="text-center mb-4">Upload Project</h2>
+
+    <form th:action="@{/saveProject}" th:object="${project}" method="post" th:fragment="projects">
+        <input type="hidden" name="userId" th:value="${userId}" />
+
+        <!-- Project Name -->
+        <div class="mb-3">
+            <label class="form-label">Project Name:</label>
+            <input type="text" class="form-control" th:field="*{projectName}" required />
+        </div>
+
+        <!-- Technology Used -->
+        <div class="mb-3">
+            <label class="form-label">Technology Used:</label>
+            <input type="text" class="form-control" th:field="*{technologyused}" required />
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+            <label class="form-label">Description:</label>
+            <textarea class="form-control" th:field="*{description}" rows="4" required></textarea>
+        </div>
+
+        <!-- Project Link -->
+        <div class="mb-3">
+            <label class="form-label">Project Link (GitHub, Live Demo, etc.):</label>
+            <input type="url" class="form-control" th:field="*{projectLink}" required />
+        </div>
+
+        <!-- Start Date -->
+        <div class="mb-3">
+            <label class="form-label">Start Date:</label>
+            <input type="date" class="form-control" th:field="*{startDate}" required />
+        </div>
+
+        <!-- End Date -->
+        <div class="mb-3">
+            <label class="form-label">End Date:</label>
+            <input type="date" class="form-control" th:field="*{endDate}" />
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Upload Project</button>
+        </div>
+    </form>
+</div>
+
+<!-- Project Display Table -->
+<div class="card shadow-lg p-4">
+    <h2 class="text-center mb-4">Project List</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered text-center">
+            <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Project Name</th>
+                <th>Technology Used</th>
+                <th>Description</th>
+                <th>Link</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="proj, iter : ${projectList}">
+                <td th:text="${iter.index + 1}"></td>
+                <td class="fw-bold" th:text="${proj.projectName}"></td>
+                <td th:text="${proj.technologyused}"></td>
+                <td th:text="${proj.description}"></td>
+                <td>
+                    <a th:href="${proj.projectLink}" target="_blank" class="btn btn-link">
+                        <i class="fas fa-external-link-alt"></i> View
+                    </a>
+                </td>
+                <td th:text="${#dates.format(proj.startDate, 'yyyy-MM-dd')}"></td>
+                <td th:text="${#dates.format(proj.endDate, 'yyyy-MM-dd')}" th:if="${proj.endDate != null}"></td>
+                <td th:if="${proj.endDate == null}" class="text-muted">N/A</td>
+
+                <td>
+                    <!-- Edit Button -->
+                    <form th:action="@{/projects/edit}" method="post" class="d-inline">
+                        <input type="hidden" name="projectId" th:value="${proj.id}">
+                        <input type="hidden" name="userId" th:value="${userId}">
+                        <button type="submit" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                    </form>
+
+                    <!-- Delete Button -->
+                    <form th:action="@{/projects/delete}" method="post" class="d-inline"
+                          onsubmit="return confirm('Are you sure you want to delete this project?');">
+                        <input type="hidden" name="projectId" th:value="${proj.id}">
+                        <input type="hidden" name="userId" th:value="${userId}">
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(projectList)}">
+                <td colspan="8" class="text-muted">No projects found.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

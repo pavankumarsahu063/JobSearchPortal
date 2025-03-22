@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Work Experience / Internship</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css}" />
+</head>
+<body class="container mt-5">
+
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center mb-4">Add Work Experience / Internship</h2>
+        
+        <form th:action="@{/saveWorkExperience}" th:object="${workExperience}" method="post"  th:fragment="workexprience">
+            
+            <!-- Hidden User ID -->
+            <input type="hidden" name="userId" th:value="${userId}" />
+
+            <!-- Company Name -->
+            <div class="mb-3">
+                <label class="form-label">Company Name:</label>
+                <input type="text" class="form-control" th:field="*{companyName}" required />
+            </div>
+
+            <!-- Designation -->
+            <div class="mb-3">
+                <label class="form-label">Designation:</label>
+                <input type="text" class="form-control" th:field="*{designation}" required />
+            </div>
+
+            <!-- Start Date -->
+            <div class="mb-3">
+                <label class="form-label">Start Date:</label>
+                <input type="date" class="form-control" th:field="*{startDate}" required />
+            </div>
+
+            <!-- End Date -->
+            <div class="mb-3">
+                <label class="form-label">End Date:</label>
+                <input type="date" class="form-control" th:field="*{endDate}" />
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+                <label class="form-label">Description:</label>
+                <textarea class="form-control" th:field="*{description}" rows="4" required></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Save Experience</button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

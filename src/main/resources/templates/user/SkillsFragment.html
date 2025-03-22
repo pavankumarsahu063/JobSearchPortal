@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<div class="skillsFragments" th:fragment="skillsform">
+
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<h3 class="fw-bold text-primary">🎓 Skills</h3>
+			<form th:action="@{/viewskills}" method="post">
+			<button class="btn btn-success  hide-btn"  onclick="scrollToEducationForm()">
+					<i class="fas fa-plus"></i> Hide Skills
+				</button>
+				<input type="hidden" name="userId" th:value="${users.id}">
+				<button class="btn btn-success" onclick="scrollToEducationForm()">
+					<i class="fas fa-plus"></i> View Skills
+				</button>
+			</form>
+		</div>
+
+		<div class="table-responsive">
+			<table
+				class="table table-striped table-hover table-bordered text-center align-middle">
+				<thead class="table-dark">
+					<tr>
+						<th>Skill Name</th>
+						<th>Proficiency</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="skill : ${skillsList}">
+						<td class="fw-bold" th:text="${skill.skillname}"></td>
+						<td th:text="${skill.proficiencylevel}"></td>
+						<td>
+							<form th:action="@{/skills/edit}" method="post" class="d-inline">
+								<input type="hidden" name="skillId" th:value="${skill.skillId}">
+								<input type="hidden" name="userId" th:value="${users.id}">
+								<button type="submit" class="btn btn-warning btn-sm">
+									<i class="fas fa-edit"></i> Edit
+								</button>
+							</form>
+							<form th:action="@{/skillsdelete}" method="post"
+								class="d-inline"
+								onsubmit="return confirm('Are you sure you want to delete this skill?');">
+								<input type="hidden" name="skillId" th:value="${skill.skillId}">
+								<input type="hidden" name="userId" th:value="${users.id}">
+								<button type="submit" class="btn btn-danger btn-sm">
+									<i class="fas fa-trash"></i> Delete
+								</button>
+							</form>
+						</td>
+					</tr>
+			  		<tr th:if="${#lists.isEmpty(skillsList)}">
+						<td colspan="3" class="text-muted">No skills added yet.</td>
+					</tr>  
+				</tbody>
+			</table>
+		</div>
+		<form th:action="@{/saveSkill}" th:object="${skills}" method="post"
+			class="row g-3 align-items-center" >
+
+
+			<input id="currentUserId" name="userId" th:value="${users.id}"
+				type="hidden">
+
+			<div class="col-auto">
+				<label class="form-label fw-bold">Skill Name:</label>
+			</div>
+			<div class="col-md-4">
+				<input type="text" th:field="*{skillname}" class="form-control"
+					placeholder="Enter skill" required>
+			</div>
+
+			<div class="col-auto">
+				<label class="form-label fw-bold">Proficiency:</label>
+			</div>
+			<div class="col-md-4">
+				<select th:field="*{proficiencylevel}" class="form-control" required>
+					<option value="Beginner">Beginner</option>
+					<option value="Intermediate">Intermediate</option>
+					<option value="Advanced">Advanced</option>
+				</select>
+			</div>
+
+			<!-- Submit Button -->
+			<div class="col-md-2">
+				<button type="submit" class="btn btn-success w-100">Add
+					Skill</button>
+			</div>
+
+		</form>
+
+	</div>
+
+</body>
+
+	<script type="text/javascript">
+	
+	
+	</script>
+</html>

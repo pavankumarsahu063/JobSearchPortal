@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Dashboard</title>
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<script src="https://kit.fontawesome.com/a076d05399.js"
+	crossorigin="anonymous"></script>
+
+<style>
+.sidebar {
+	width: 260px;
+	background: linear-gradient(180deg, #34495e, #2c3e50);
+	color: white;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+	transition: 0.3s ease-in-out;
+	position: fixed;
+	height: 100vh;
+	overflow-y: auto;
+}
+
+.profile img {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	border: 3px solid white;
+	margin-bottom: 10px;
+}
+
+.menu {
+	list-style: none;
+	width: 100%;
+	padding: 0;
+}
+
+.menu li {
+	padding: 12px;
+	cursor: pointer;
+	text-align: left;
+	background: rgba(255, 255, 255, 0.1);
+	margin: 5px 0;
+	border-radius: 5px;
+	display: flex;
+	align-items: center;
+	transition: 0.3s;
+	font-size: 16px;
+}
+
+.menu li:hover {
+	background: #1abc9c;
+	transform: scale(1.05);
+}
+
+.menu li i {
+	margin-right: 12px;
+	color: #ecf0f1;
+}
+
+.navbar {
+	background: #ffffff;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
+	padding: 15px;
+}
+
+.navbar .logo {
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: #333;
+}
+
+.main-content {
+	margin-left: 260px;
+	flex: 1;
+	padding: 20px;
+}
+
+.section {
+	display: none;
+	padding: 20px;
+	background: white;
+	border-radius: 8px;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+	margin: 20px 0;
+}
+
+.section.active {
+	display: block;
+}
+
+.sidebar-toggle {
+	display: none;
+}
+
+@media ( max-width : 992px) {
+	.sidebar {
+		width: 220px;
+	}
+	.main-content {
+		margin-left: 220px;
+	}
+}
+
+@media ( max-width : 768px) {
+	.sidebar {
+		width: 100%;
+		height: auto;
+		position: relative;
+		padding: 10px;
+		display: none;
+	}
+	.sidebar-toggle {
+		display: block;
+		cursor: pointer;
+		font-size: 24px;
+		padding: 10px;
+		background: #34495e;
+		color: white;
+		text-align: center;
+	}
+	.main-content {
+		margin-left: 0;
+		width: 100%;
+	}
+}
+</style>
+</head>
+<body>
+
+
+	<div class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</div>
+	<div th:insert="~{user/sidenavbar :: sideNavBar}"></div>
+
+
+	<div class="main-content">
+		<nav class="navbar d-flex justify-content-between">
+			<div class="logo">🏆 Job Junction</div>
+			<input type="text" id="searchBar" class="form-control w-50"
+				placeholder="Search Jobs...">
+			<div class="nav-buttons">
+				<button class="btn btn-danger" onclick="showSection('applied-jobs')">
+					<i class="fas fa-paper-plane"></i> Applied Jobs
+				</button>
+				<button class="btn btn-danger" onclick="showSection('saved-jobs')">
+					<i class="fas fa-bookmark"></i> Saved Jobs
+				</button>
+				<a th:href="@{/logout}"><button class="btn btn-danger">
+						<i class="fas fa-sign-out-alt"></i> Logout
+					</button></a>
+			</div>
+		</nav>
+
+		<div id="contact" class="section ">
+			📞 Contact Information
+			<div th:replace="~{user/BasicInformationForm :: basicInfoForm}"></div>
+
+		</div>
+		<div id="education" class="section ">
+		<div th:replace="~{user/EducationDetailsFragment :: eductionForm}"></div>
+		
+		
+		</div>
+
+		<div id="skills" class="section">
+			<div th:replace="~{user/SkillsFragment :: skillsform}"></div>
+		</div>
+		<div id="preference" class="section active">
+			
+			<div th:replace="~{user/jobpreferencefragment :: jobPreferencesForm}"></div>
+		</div>
+		<div id="languages" class="section">
+			
+
+			 <div th:replace="~{user/languageFragment :: Languages}"></div>
+		</div>
+		<div id="projects" class="section">
+			
+			<div th:replace="~{user/Projects ::  projects}"></div>
+
+		</div>
+		<div id="experience" class="section">
+			
+			<div th:replace="~{user/WorkExprience :: workexprience}"></div>
+		</div>
+		<div id="certifications" class="section">
+			
+			<div th:replace="~{user/certification :: certifications}"></div>
+
+		</div>
+		<div id="achievements" class="section">
+			
+			<div th:replace="~{user/Achievements :: achievementsform}"></div>
+		</div>
+		<div id="resume" class="section">📄 Resume Download</div>
+	</div>
+
+	<script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        function toggleSidebar() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.style.display = sidebar.style.display === 'block' ? 'none' : 'block';
+        }
+        
+        
+        function scrollToEducationForm() {
+            const element = document.getElementById("educationForm");
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    </script>
+
+</body>
+</html>
+

@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Languages</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5" th:fragment="Languages">
+
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold text-primary">🌐 Language Skills</h3>
+        <form th:action="@{/languageDetails}" method="post">
+            <input type="hidden" name="userId" th:value="${users.id}">
+            <button class="btn btn-success">
+                <i class="fas fa-plus"></i> View Languages
+            </button>
+        </form>
+    </div>
+
+    <!-- Display Table -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered text-center align-middle">
+            <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Language Name</th>
+                <th>Proficiency Level</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="lang, iter : ${languageList}">
+                <td th:text="${iter.index + 1}"></td>
+                <td class="fw-bold" th:text="${lang.languagename}"></td>
+                <td th:text="${lang.proficiency}"></td>
+                <td>
+                    
+                    <form th:action="@{/languages/edit}" method="post" class="d-inline">
+                        <input type="hidden" name="langId" th:value="${lang.languageId}">
+                        <input type="hidden" name="userId" th:value="${users.id}">
+                        <button type="submit" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                    </form>
+
+                    <!-- Delete Form -->
+                    <form th:action="@{/languagesdelete}" method="post" class="d-inline"
+                          onsubmit="return confirm('Are you sure you want to delete this language?');">
+                        <input type="hidden" name="langId" th:value="${lang.languageId}">
+                        <input type="hidden" name="userId" th:value="${users.id}">
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(languageList)}">
+                <td colspan="4" class="text-muted">No language details available.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="fw-bold text-primary">🌐 Add Language</h3>
+   
+
+    <form th:action="@{/saveLanguages}" th:object="${languages}" method="post" class="row g-3 align-items-center justify-content-center mt-4">
+        <!-- Hidden User ID -->
+        <input id="currentUserId" name="userId" th:value="${users.id}" type="hidden">
+
+        <!-- Language Name -->
+        <div class="col-md-3 text-md-end">
+            <label class="form-label fw-bold">Language Name:</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" th:field="*{languagename}" class="form-control" placeholder="Enter Language" required>
+            <div class="invalid-feedback">Please enter a language name.</div>
+        </div>
+
+        <!-- Proficiency Level -->
+        <div class="col-md-2 text-md-end">
+            <label class="form-label fw-bold">Proficiency:</label>
+        </div>
+        <div class="col-md-3">
+            <select th:field="*{proficiency}" class="form-select" required>
+                <option value="" selected disabled>Select proficiency level</option>
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+            </select>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="col-12 text-center mt-3">
+            <button type="submit" class="btn btn-success px-5">Add Language</button>
+        </div>
+    </form>
+
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certification Form</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css}" />
+</head>
+<body class="container mt-5">
+
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center mb-4">Add Certification</h2>
+        
+        <form th:action="@{/saveCertification}" th:object="${certification}" method="post" th:fragment="certifications">
+            <input type="hidden" name="userId" th:value="${userId}" />
+            
+            <div class="mb-3">
+                <label class="form-label">Certification Name:</label>
+                <input type="text" class="form-control" th:field="*{certificationName}" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Certification ID:</label>
+                <input type="text" class="form-control" th:field="*{certificationId}" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Certification URL:</label>
+                <input type="url" class="form-control" th:field="*{certificationUrl}" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Validity Period:</label>
+                <div class="row g-2 align-items-center">
+                    <div class="col-md-4">
+                        <input type="date" class="form-control" th:field="*{validityFrom}" id="validityFrom" required />
+                    </div>
+                    <div class="col-md-1 text-center">to</div>
+                    <div class="col-md-4">
+                        <input type="date" class="form-control" th:field="*{validityTo}" id="validityTo" required />
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="noExpiry" onchange="toggleValidity()" />
+                            <label class="form-check-label" for="noExpiry">Does not expire</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Save Certification</button>
+            </div>
+
+        </form>
+    </div>
+
+    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js}"></script>
+
+    <script>
+        function toggleValidity() {
+            var fromDate = document.getElementById("validityFrom");
+            var toDate = document.getElementById("validityTo");
+            var noExpiryCheckbox = document.getElementById("noExpiry");
+
+            if (noExpiryCheckbox.checked) {
+                fromDate.disabled = true;
+                toDate.disabled = true;
+                fromDate.value = "";
+                toDate.value = "";
+            } else {
+                fromDate.disabled = false;
+                toDate.disabled = false;
+            }
+        }
+    </script>
+
+</body>
+</html>

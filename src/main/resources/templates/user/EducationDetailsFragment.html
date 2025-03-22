@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<div class="educationfragment" th:fragment="eductionForm">
+
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<h3 class="fw-bold text-primary">🎓 Education Details</h3>
+			<form th:action="@{/educationDetails}" method="post">
+				<input type="hidden" name="userId" th:value="${users.id}">
+				<button class="btn btn-success" onclick="scrollToEducationForm()">
+					<i class="fas fa-plus"></i> View Education Details
+				</button>
+			</form>
+		</div>
+
+
+		<div class="table-responsive">
+			<table
+				class="table table-striped table-hover table-bordered text-center align-middle">
+				<thead class="table-dark">
+					<tr>
+
+						<th>Degree</th>
+						<th>Institution</th>
+						<th>Field of Study</th>
+						<th>Start Year</th>
+						<th>End Year</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="edu, iter : ${educationList}">
+
+						<td class="fw-bold" th:text="${edu.degree}"></td>
+						<td th:text="${edu.institution}"></td>
+						<td th:text="${edu.fieldOfStudy}"></td>
+						<td th:text="${edu.startYear}"></td>
+						<td th:text="${edu.endYear}"></td>
+						<td>
+
+							<form th:action="@{/education/edit}" method="post"
+								class="d-inline">
+								<input type="hidden" name="eduId" th:value="${edu.educationId}">
+								<input id="currentUserId" name="userId" th:value="${users.id}"
+									type="hidden">
+								<button type="submit" class="btn btn-warning btn-sm">
+									<i class="fas fa-edit"></i> Edit
+								</button>
+							</form>
+							<form th:action="@{/education/delete}" method="post"
+								class="d-inline"
+								onsubmit="return confirm('Are you sure you want to delete this record?');">
+								<input type="hidden" name="eduId" th:value="${edu.educationId}">
+								<input id="currentUserId" name="userId" th:value="${users.id}"
+									type="hidden">
+								<button type="submit" class="btn btn-danger btn-sm">
+									<i class="fas fa-trash"></i> Delete
+								</button>
+							</form>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(educationList)}">
+						<td colspan="7" class="text-muted">No education details
+							available.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<h1>Add Education</h1>
+
+		<form id="educationForm" th:action="@{/saveEduData} "
+			th:object="${education}" method="post" th:fragment="EducationDetails">
+			<input id="currentUserId" name="userId" th:value="${users.id}"
+				type="hidden">
+			<div class="mb-3">
+				<label class="form-label">Degree:</label> <input type="text"
+					th:field="*{degree}" class="form-control"
+					placeholder="Enter Degree (e.g., B.Tech, M.Sc)" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label">Institution:</label> <input type="text"
+					th:field="*{institution}" class="form-control"
+					placeholder="Enter Institution Name" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label">Field of Study:</label> <input type="text"
+					th:field="*{fieldOfStudy}" class="form-control"
+					placeholder="Enter Field of Study" required>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6 mb-3">
+					<label class="form-label">Start Year:</label> <input type="number"
+						th:field="*{startYear}" class="form-control" min="1900" max="2025"
+						required>
+				</div>
+				<div class="col-md-6 mb-3">
+					<label class="form-label">End Year:</label> <input type="number"
+						th:field="*{endYear}" class="form-control" min="1900" max="2030"
+						required>
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label">Grade :</label> <input
+					type="text" th:field="*{grade}" class="form-control"
+					placeholder="Enter Grade">
+			</div>
+
+			<div class="text-center">
+				<button type="submit" class="btn btn-success w-100">Add
+					Education</button>
+			</div>
+		</form>
+
+	</div>
+
+</body>
+</html>
