@@ -16,6 +16,7 @@
             <li><a th:href="@{/contactus}">Contact</a></li>
             <li><a th:href="@{/Registration}">Register</a></li>
             <li><a th:href="@{/faq}">FAQ</a></li>
+            <li><button id="themeToggle">🌙</button></li>
         </ul>
     </nav>
 
@@ -67,4 +68,10 @@
         <p class="footer-bottom">&copy; 2025 Job Junction. All Rights Reserved.</p>
     </footer>
 </body>
+	<script type="text/javascript">
+		document.getElementById("themeToggle").addEventListener("click", () => {
+		    document.body.classList.toggle("dark-mode");
+		    themeToggle.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
+		});
+	</script>
 </html>

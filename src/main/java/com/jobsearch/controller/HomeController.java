@@ -20,6 +20,11 @@ public class HomeController {
         return "index"; 
     }
 	
+	@GetMapping("/jobposter/home")
+	public String jobPosterHome() {
+		return "JobPosterIndex";
+	}
+	
 	
 
 
